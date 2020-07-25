@@ -40,32 +40,37 @@ public class AddEnquiry extends Fragment {
 
         return view;
 
-        final Dialog dialog = new Dialog(getActivity());
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
-        dialog.setContentView(R.layout.dialog_layout);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        dialog.setCancelable(true);
-
-        RecyclerView recyclerView = dialog.findViewById(R.id.recyclerView);
-        TextView close = dialog.findViewById(R.id.close);
-
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-
-        dialog.show();
 
     }
 
-    @OnClick({R.id.next})
+    @OnClick({R.id.next, R.id.assignTo})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.next:
                 ((MainPage) getActivity()).loadFragment(new AddFollowUp(), true);
+                break;
+
+            case R.id.assignTo:
+
+                final Dialog dialog = new Dialog(getActivity());
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+                dialog.setContentView(R.layout.dialog_layout);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                dialog.setCancelable(true);
+
+                RecyclerView recyclerView = dialog.findViewById(R.id.recyclerView);
+                TextView close = dialog.findViewById(R.id.close);
+
+                close.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+
+                dialog.show();
+
                 break;
 
         }
