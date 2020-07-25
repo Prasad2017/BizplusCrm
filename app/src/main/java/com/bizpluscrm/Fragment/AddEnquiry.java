@@ -17,8 +17,14 @@ import android.view.Window;
 import android.widget.TextView;
 
 import com.bizpluscrm.Activity.MainPage;
+import com.bizpluscrm.Adapter.AssignToAdapter;
 import com.bizpluscrm.Extra.DetectConnection;
+import com.bizpluscrm.Model.AssignResponse;
 import com.bizpluscrm.R;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -28,7 +34,8 @@ import es.dmoral.toasty.Toasty;
 public class AddEnquiry extends Fragment {
 
     View view;
-
+    private List<String> rootFilters;
+    private List<AssignResponse> assignResponseList = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,6 +45,12 @@ public class AddEnquiry extends Fragment {
         ButterKnife.bind(this, view);
         MainPage.title.setText("");
 
+        rootFilters = Arrays.asList(this.getResources().getStringArray(R.array.filter_category));
+        for (int i = 0; i < rootFilters.size(); i++) {
+            AssignResponse model = new AssignResponse();
+            model.setName(rootFilters.get(i));
+            assignResponseList.add(model);
+        }
         return view;
 
 
@@ -68,6 +81,12 @@ public class AddEnquiry extends Fragment {
                     }
                 });
 
+                    AssignToAdapter pincodeAdapter = new AssignToAdapter(getActivity(), assignResponseList);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                    recyclerView.setAdapter(pincodeAdapter);
+                    recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
+                    pincodeAdapter.notifyDataSetChanged();
+                    recyclerView.setHasFixedSize(true);
 
                 dialog.show();
 
