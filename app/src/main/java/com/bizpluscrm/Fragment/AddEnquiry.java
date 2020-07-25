@@ -37,6 +37,7 @@ public class AddEnquiry extends Fragment {
     private List<String> rootFilters;
     private List<AssignResponse> assignResponseList = new ArrayList<>();
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
