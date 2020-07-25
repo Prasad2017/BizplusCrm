@@ -51,6 +51,7 @@ public class AddEnquiry extends Fragment {
             model.setName(rootFilters.get(i));
             assignResponseList.add(model);
         }
+
         return view;
 
 
