@@ -2,6 +2,7 @@ package com.bizpluscrm.Fragment;
 
 import android.os.Bundle;
 
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -13,6 +14,7 @@ import com.bizpluscrm.Activity.MainPage;
 import com.bizpluscrm.Extra.DetectConnection;
 import com.bizpluscrm.R;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import es.dmoral.toasty.Toasty;
@@ -21,6 +23,8 @@ import es.dmoral.toasty.Toasty;
 public class EnquiryList extends Fragment {
 
     View view;
+    @BindView(R.id.nestedScrollView)
+    NestedScrollView nestedScrollView;
 
 
     @Override
@@ -31,8 +35,29 @@ public class EnquiryList extends Fragment {
         ButterKnife.bind(this, view);
         MainPage.title.setText("");
 
+        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (scrollY < oldScrollY) { // up
+                    animateNavigation(false);
+                }
+                if (scrollY > oldScrollY) { // down
+                    animateNavigation(true);
+                }
+            }
+        });
+
         return view;
 
+    }
+
+    boolean isNavigationHide = false;
+
+    private void animateNavigation(final boolean hide) {
+        if (isNavigationHide && hide || !isNavigationHide && !hide) return;
+        isNavigationHide = hide;
+        int moveY = hide ? (2 * MainPage.bottomNavigationView.getHeight()) : 0;
+        MainPage.bottomNavigationView.animate().translationY(moveY).setStartDelay(100).setDuration(300).start();
     }
 
     @OnClick({R.id.addEnquiry})
